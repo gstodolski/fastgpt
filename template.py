@@ -49,17 +49,14 @@ class Template:
         """Runs the template in ChatGPT"""
         # Check that variables are defined
         for var in self.get_variables():
-            if var.name == "name":
-                    var.value = "GRAHAM"
             if var.value is None:
                 raise ValueError('Variable %s is not defined' % var.name)
         
         prompt = self.prepare_string()
-        return prompt
-        # return runChatGPT(prompt)
+        return runChatGPT(prompt)
 
 if __name__ == '__main__':
-    template = Template('Hello')
-    template.add_content('My name is $name$')
-    print(template.get_content())
-    print(template.execute_template())
+    # template = Template('Hello')
+    # template.add_content('My name is $name$')
+    # print(template.get_content())
+    # print(template.execute_template())
