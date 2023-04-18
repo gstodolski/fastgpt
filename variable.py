@@ -10,3 +10,8 @@ class Variable:
         self.name = name
         self.type = type
         self.value = None
+        self.punc = None
+
+    def set_value(self, value):
+        """Set the value of the variable"""
+        self.value = value
