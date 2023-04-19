@@ -2,10 +2,6 @@ import string
 from variable import Variable
 from open_ai import run_chatgpt
 
-TEXT = 0
-NUMBER = 1
-DATE = 2
-
 class Template:
     """Template for ChatGPT prompts"""
 
@@ -13,10 +9,18 @@ class Template:
         """Initializes the template"""
         self.title = title
         self.content = []
+        self.string = ""
 
     def get_content(self):
         """Returns the content of the template"""
         return self.content
+    
+    def get_variable(self, name):
+        """Returns the variable with the given name"""
+        for var in self.get_variables():
+            if var.name == name:
+                return var
+        return None
 
     def get_variables(self):
         """Returns the variables of the template"""
@@ -36,16 +40,16 @@ class Template:
         """Adds strings and variables to the template"""
         for word in content.split():
             punc = None
-            if word[-1] in string.punctuation:
+            if word[-1] in string.punctuation and word[-1] not in ['$', '#', '*']:
                 punc = word[-1]
                 word = word[:-1]
 
             if word[0] == '$' and word[-1] == '$':
-                word = Variable(word[1:-1], TEXT)
+                word = Variable(word[1:-1], "text")
             elif word[0] == '#' and word[-1] == '#':
-                word = Variable(word[1:-1], NUMBER)
+                word = Variable(word[1:-1], "number")
             elif word[0] == '*' and word[-1] == '*':
-                word = Variable(word[1:-1], DATE)
+                word = Variable(word[1:-1], "date")
             
             if punc is not None and isinstance(word, Variable):
                 word.punc = punc
@@ -76,12 +80,3 @@ class Template:
         
         prompt = self.prepare_string()
         return run_chatgpt(prompt)
-
-if __name__ == '__main__':
-    # Testing
-    template = Template('Hello')
-    template.add_content('My name is $name$. Come up with a nickname for me please.')
-    # print(template.get_content())
-    template.set_variable('name', 'Graham Stodolski')
-    # print(template.get_content())
-    print(template.execute_template())
