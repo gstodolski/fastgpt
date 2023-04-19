@@ -24,20 +24,20 @@ class Gui:
         # Template input
         self.template_label = tk.Label(self.window, text="Template", font=("Menlo", 20, "bold"), anchor="w", fg="#081EC4", bg="#FAF9F6")
         self.template_label.pack(side="top", padx=40, pady=(32, 8), anchor="w")
-
+        # Active template frame
         self.active_template_frame = tk.Frame(self.window, bg="#FAF9F6")
         self.active_template_frame.pack(side="top", fill="x", padx=40, pady=(0, 20))
-
-        self.active_template_label = tk.Label(self.active_template_frame, text="Active template: ", font=("Arial", 16, "bold"), anchor="w", fg="#081EC4", bg="#FAF9F6")
+        # Active template selector
+        self.active_template_label = tk.Label(self.active_template_frame, text="Active template: ", font=("Arial", 16, "bold"), anchor="w", fg="#000000", bg="#FAF9F6")
         self.active_template_label.pack(side="left", anchor="w")
         self.active_template_text = tk.Button(self.active_template_frame, text=self.get_active_template(), command=self.open_template_window, bg="#FAF9F6", fg="#081EC4", font=("Arial", 16, "bold"), borderwidth=0, relief="flat")
         self.active_template_text.pack(side="left", anchor="w")
 
+        # Content of active template
         self.template_box = tk.Text(self.window, bg="#FAF9F6", fg="#000000", font=("Arial", 16), wrap="word", height=2, highlightthickness=0)
         self.template_box.pack(side="top", fill="both", expand=True, padx=40, pady=(0, 8))
         self.template_box.insert("end", self.get_content())
         self.template_box.configure(state="disabled")
-
         # Submit button
         self.submit_button = tk.Button(self.window, text="Run ChatGPT", command=self.submit, fg="#176345", font=("Menlo", 16, "bold"), borderwidth=0, relief="flat", height=2, width=10, highlightcolor="#176345", highlightbackground="#176345")
         self.submit_button.pack(side="top", padx=40, pady=(0, 32), anchor="e")
@@ -58,27 +58,28 @@ class Gui:
         self.template_window.config(bg="#FAF9F6")
         list = tk.Variable(value=self.app.get_template_names())
 
+        # Template listbox header
         self.template_label = tk.Label(self.template_window, text="Templates", font=("Menlo", 20, "bold"), anchor="w", fg="#081EC4", bg="#FAF9F6")
         self.template_label.pack(side="top", padx=40, pady=(32, 0), anchor="w")
         self.template_instructions = tk.Label(self.template_window, text="Click an existing template to use.", font=("Arial", 14), anchor="w", fg="#000000", bg="#FAF9F6")
         self.template_instructions.pack(side="top", padx=40, pady=(0, 8), anchor="w")
-
+        # Template listbox
         self.template_list = tk.Listbox(self.template_window, listvariable=list, bg="#FAF9F6", fg="#000000", font=("Arial", 16), selectmode="single", border=2)
         self.template_list.pack(side="top", fill="both", expand=True, padx=40, pady=(0, 16))
-
+        # Delete button
         self.template_button_frame = tk.Frame(self.template_window, bg="#FAF9F6")
         self.template_button_frame.pack(side="top", fill="x", padx=40, pady=(0, 16))
-
         self.delete_template_button = tk.Button(self.template_button_frame, text="Delete template", bg="#FAF9F6", fg="#081EC4", font=("Arial", 16, "bold"), borderwidth=0)
         self.delete_template_button.pack(side="left", anchor="w")
 
+        # New template frame
         self.new_template_label = tk.Label(self.template_window, text="New template", font=("Menlo", 20, "bold"), anchor="w", fg="#081EC4", bg="#FAF9F6")
         self.new_template_label.pack(side="top", padx=40, pady=(8, 0), anchor="w")
         self.instructions_1 = tk.Label(self.template_window, text="Enter a title and content for your new template. For a string variable, type $var$ where var is the title.", font=("Arial", 14), anchor="w", fg="#000000", bg="#FAF9F6")
         self.instructions_1.pack(side="top", padx=40, pady=(2, 0), anchor="w")
         self.instructions_2 = tk.Label(self.template_window, text="For a number variable titled num, type #num#. For a date variable titled birthday, type *birthday*.", font=("Arial", 14), anchor="w", fg="#000000", bg="#FAF9F6")
         self.instructions_2.pack(side="top", padx=40, pady=(0, 4), anchor="w")
-        
+        # Form for new template
         self.title_label = tk.Label(self.template_window, text="Title", bg="#FAF9F6", fg="#000000", font=("Arial", 16, "bold"))
         self.title_label.pack(side="top", padx=40, anchor="w")
         self.new_template_title_box = tk.Entry(self.template_window, bg="#FAF9F6", fg="#000000", font=("Arial", 14), highlightthickness=2, relief="flat")
@@ -144,7 +145,7 @@ class Gui:
                     symbol = "*"
                 variable = symbol + var.name + symbol
                 start = self.template_box.search(variable, "1.0", "end")
-
+                # Display variables
                 if var.value is not None and start == "":
                     continue
                 elif var.value is None:
