@@ -30,3 +30,7 @@ class App:
         for template in self.templates:
             out.append(template.title)
         return out
+    
+    def delete_template(self, template):
+        """Delete the given template"""
+        self.templates.remove(template)

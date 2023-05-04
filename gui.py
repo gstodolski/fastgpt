@@ -69,7 +69,7 @@ class Gui:
         # Delete button
         self.template_button_frame = tk.Frame(self.template_window, bg="#FAF9F6")
         self.template_button_frame.pack(side="top", fill="x", padx=40, pady=(0, 16))
-        self.delete_template_button = tk.Button(self.template_button_frame, text="Delete template", bg="#FAF9F6", fg="#081EC4", font=("Arial", 16, "bold"), borderwidth=0)
+        self.delete_template_button = tk.Button(self.template_button_frame, text="Delete template", command=self.delete_template, bg="#FAF9F6", fg="#081EC4", font=("Arial", 16, "bold"), borderwidth=0)
         self.delete_template_button.pack(side="left", anchor="w")
 
         # New template frame
@@ -130,6 +130,22 @@ class Gui:
         self.template_list.insert(tk.END, title)
         self.new_template_title_box.delete(0, tk.END)
         self.new_template_content_box.delete(0, tk.END)
+
+    def delete_template(self):
+        """Delete the selected template"""
+        selection = self.template_list.curselection()
+        if selection:
+            template = self.app.templates[selection[0]]
+            self.app.delete_template(template)
+            self.template_list.delete(selection[0])
+            self.active_template = None
+            self.active_template_text.config(text=self.get_active_template())
+            content = self.get_content()
+            self.template_box.configure(state="normal")
+            self.template_box.delete("1.0", "end")
+            self.template_box.insert("end", content)
+            self.display_content()
+            self.template_box.configure(state="disabled")
 
     def display_content(self):
         """Display the content of the active template"""
