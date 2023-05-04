@@ -212,13 +212,20 @@ class Gui:
         """Assign a value to a variable"""
         value = self.text_box.get()
         var.set_value(value)
+        self.template_box.configure(state="normal")
+        self.template_box.delete("1.0", "end")
+        self.template_box.insert("end", self.get_content())
         self.display_content()
+        self.template_box.configure(state="disabled")
         self.text_window.destroy()
 
     def submit(self):
         """Submit the form"""
         response = self.active_template.execute_template()
-        self.output_box.insert(tk.END, response)
+        # Clear output box
+        self.output_box.delete("1.0", "end")
+        # Display response
+        self.output_box.insert("end", response)
     
     def save_app(self):
         """Save the application"""
