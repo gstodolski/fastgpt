@@ -34,7 +34,7 @@ class Gui:
         self.active_template_text.pack(side="left", anchor="w")
 
         # Content of active template
-        self.template_box = tk.Text(self.window, bg="#FAF9F6", fg="#000000", font=("Arial", 16), wrap="word", height=2, highlightthickness=0)
+        self.template_box = tk.Text(self.window, bg="#FAF9F6", fg="#000000", font=("Arial", 16), wrap="word", height=4, highlightthickness=0)
         self.template_box.pack(side="top", fill="both", expand=True, padx=40, pady=(0, 8))
         self.template_box.insert("end", self.get_content())
         self.template_box.configure(state="disabled")
